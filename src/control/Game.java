@@ -19,6 +19,7 @@ public class Game extends StateBasedGame {
     private PlayState playState;
     
     public static void main(String[] args) throws SlickException {
+        System.setProperty("org.lwjgl.opengl.Display.enableHighDPI", "true");
         AppGameContainer app = new AppGameContainer(new Game("Game"));
         app.setTargetFrameRate(60);
         Toolkit toolkit = Toolkit.getDefaultToolkit();

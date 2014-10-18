@@ -1,7 +1,6 @@
 
 package control;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -32,8 +31,7 @@ public class PlayState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-//        g.setColor(Color.white);
-//        g.fillRect(10, 10, container.getScreenWidth(), container.getScreenHeight());
+        
     }
 
     @Override
