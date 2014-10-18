@@ -15,9 +15,11 @@ import org.newdawn.slick.state.StateBasedGame;
 public class PlayState extends BasicGameState {
     
     private int id;
+    private Game ga;
     
-    public PlayState(int id) {
+    public PlayState(int id, Game ga) {
         this.id = id;
+        this.ga = ga;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class PlayState extends BasicGameState {
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        
+        ga.inputReceiver.reactToInput(container, delta);
     }
 
 }

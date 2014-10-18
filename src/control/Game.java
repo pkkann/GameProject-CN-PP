@@ -17,6 +17,7 @@ public class Game extends StateBasedGame {
     public static final int PLAYSTATE = 0;
     
     private PlayState playState;
+    public InputReceiver inputReceiver;
     
     public static void main(String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new Game("Game"));
@@ -31,11 +32,12 @@ public class Game extends StateBasedGame {
 
     public Game(String name) {
         super(name);
+        inputReceiver = new InputReceiver();
     }
 
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
-        addState(new PlayState(PLAYSTATE));
+        addState(new PlayState(PLAYSTATE, this));
         
         getState(PLAYSTATE).init(container, this);
         
