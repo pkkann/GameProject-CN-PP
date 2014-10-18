@@ -1,6 +1,6 @@
-
 package control;
 
+import model.TileMap;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,13 +13,15 @@ import org.newdawn.slick.state.StateBasedGame;
  * @author Patrick
  */
 public class PlayState extends BasicGameState {
-    
+
     private int id;
     private Game ga;
-    
+    private TileMap tileMap;
+
     public PlayState(int id, Game ga) {
         this.id = id;
         this.ga = ga;
+        tileMap = new TileMap();
     }
 
     @Override
@@ -29,13 +31,14 @@ public class PlayState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        
+
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.setColor(Color.darkGray);
         g.fillRect(0, 0, container.getWidth(), container.getHeight());
+        tileMap.render(container, game, g);
     }
 
     @Override
