@@ -1,6 +1,8 @@
 
 package control;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -12,10 +14,19 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class Game extends StateBasedGame {
     
+    public static final int PLAYSTATE = 0;
+    
+    private PlayState playState;
+    
     public static void main(String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new Game("Game"));
-        app.setTargetFrameRate(60);
-        app.setDisplayMode(800, 600, false);
+        //app.setTargetFrameRate(60);
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        System.out.println(screenSize);
+        app.setDisplayMode(screenSize.width, screenSize.height, true);
+        app.setVerbose(true);
+        app.setShowFPS(true);
         app.start();
     }
 
@@ -25,7 +36,11 @@ public class Game extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
+        addState(new PlayState(PLAYSTATE));
         
+        getState(PLAYSTATE).init(container, this);
+        
+        enterState(PLAYSTATE);
     }
 
 }
