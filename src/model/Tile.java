@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.ArrayList;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
@@ -17,10 +18,29 @@ public class Tile {
     private boolean occupied;
     private boolean blocked;
     private float moveCost;
+    private ArrayList<SmallTile> innerTiles;
 
-    public Tile(Rectangle bounds, boolean blocked) {
+    public Tile(Rectangle bounds) {
         this.bounds = bounds;
         occupied = false;
+        blocked = false;
+        setInnerTiles();
+    }
+
+    private void setInnerTiles() {
+        innerTiles = new ArrayList<>();
+        innerTiles.add(new SmallTile(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth() / 2, bounds.getHeight() / 2)));
+        innerTiles.add(new SmallTile(new Rectangle(bounds.getMinX() + (bounds.getWidth() / 2), bounds.getMinY(), bounds.getWidth() / 2, bounds.getHeight() / 2)));
+        innerTiles.add(new SmallTile(new Rectangle(bounds.getMinX(), bounds.getMinY() + (bounds.getHeight() / 2), bounds.getWidth() / 2, bounds.getHeight() / 2)));
+        innerTiles.add(new SmallTile(new Rectangle(bounds.getMinX() + (bounds.getWidth() / 2), bounds.getMinY() + (bounds.getHeight() / 2), bounds.getWidth() / 2, bounds.getHeight() / 2)));
+    }
+
+    public ArrayList<SmallTile> getInnerTiles() {
+        return innerTiles;
+    }
+
+    public void setInnerTiles(ArrayList<SmallTile> innerTiles) {
+        this.innerTiles = innerTiles;
     }
 
     public Rectangle getBounds() {

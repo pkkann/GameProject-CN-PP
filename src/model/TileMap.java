@@ -35,18 +35,16 @@ public class TileMap implements TileBasedMap {
     /*
      The size of each tile.
      */
-    private int tileSize = 10;
+    private int tileSize = 20;
     /*
      A 2 dimensional array of booleans used by the A* pathfinder.
      */
     private boolean[][] visited = new boolean[mapWidth][mapHeight];
 
     public TileMap() {
-    map = new Tile[mapWidth][mapHeight];
-    populateTileMap();
+        map = new Tile[mapWidth][mapHeight];
+        populateTileMap();
     }
-    
-    
 
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         drawMap(g);
@@ -57,24 +55,30 @@ public class TileMap implements TileBasedMap {
     }
 
     /*
-    Creates the amount of tiles specified by mapHeight and mapWidth in the tileSize.
-    */
+     Creates the amount of tiles specified by mapHeight and mapWidth in the tileSize.
+     */
     private void populateTileMap() {
         for (int x = 0; x < mapWidth; x++) {
             for (int y = 0; y < mapHeight; y++) {
-                map[x][y] = new Tile(new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize), false);
+                map[x][y] = new Tile(new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize));
             }
         }
     }
 
     /*
-    Draws the map as a grid for testing purposes.
-    */
+     Draws the map as a grid for testing purposes.
+     */
     public void drawMap(Graphics g) {
         g.setColor(Color.white);
         for (int x = 0; x < mapWidth; x++) {
             for (int y = 0; y < mapHeight; y++) {
-                g.drawRect(x * tileSize, y * tileSize, tileSize, tileSize);
+                g.setColor(Color.white);
+                Tile t = map[x][y];
+                g.drawRect(t.getBounds().getMinX(), t.getBounds().getMinY(), t.getBounds().getWidth(), t.getBounds().getHeight());
+                g.setColor(Color.yellow);
+                for (SmallTile st : t.getInnerTiles()) {
+                    g.drawRect(st.getBounds().getMinX(), st.getBounds().getMinY(), st.getBounds().getWidth(), st.getBounds().getHeight());
+                }
             }
         }
     }
