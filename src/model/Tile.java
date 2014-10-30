@@ -6,7 +6,12 @@
 package model;
 
 import java.util.ArrayList;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.state.StateBasedGame;
 
 /**
  *
@@ -14,17 +19,28 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class Tile {
 
-    private Rectangle bounds;
-    private boolean occupied;
-    private boolean blocked;
-    private float moveCost;
-    private ArrayList<SmallTile> innerTiles;
+    protected Rectangle bounds;
+    protected boolean occupied;
+    protected boolean blocked;
+    protected float moveCost;
+    protected ArrayList<SmallTile> innerTiles;
+    protected Image t9Texture;
+    protected Image texture;
+    protected int id;
 
     public Tile(Rectangle bounds) {
         this.bounds = bounds;
         occupied = false;
         blocked = false;
         setInnerTiles();
+    }
+
+    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        texture.draw(bounds.getMinX(), bounds.getMinY());
+    }
+
+    public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+
     }
 
     private void setInnerTiles() {
@@ -41,6 +57,18 @@ public class Tile {
 
     public void setInnerTiles(ArrayList<SmallTile> innerTiles) {
         this.innerTiles = innerTiles;
+    }
+
+    public void chooseTexture() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Rectangle getBounds() {

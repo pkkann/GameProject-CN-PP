@@ -23,7 +23,7 @@ public class TileMap implements TileBasedMap {
     /*
      2 dimensional array of Tiles, which will be the tilemap.
      */
-    private Tile[][] map;
+    private static Tile[][] map;
     /*
      Amount of tiles on the y axis.
      */
@@ -47,7 +47,7 @@ public class TileMap implements TileBasedMap {
     }
 
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        drawMap(g);
+        drawMap(container, game, g);
     }
 
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
@@ -60,7 +60,15 @@ public class TileMap implements TileBasedMap {
     private void populateTileMap() {
         for (int x = 0; x < mapWidth; x++) {
             for (int y = 0; y < mapHeight; y++) {
-                map[x][y] = new Tile(new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize));
+                map[x][y] = new GrassTile(new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize));
+            }
+        }
+        map[5][5].setId(2);
+        map[6][5].setId(2);
+        map[6][6].setId(2);
+        for (int x = 0; x < mapWidth; x++) {
+            for (int y = 0; y < mapHeight; y++) {
+                map[x][y].chooseTexture();
             }
         }
     }
@@ -68,19 +76,58 @@ public class TileMap implements TileBasedMap {
     /*
      Draws the map as a grid for testing purposes.
      */
-    public void drawMap(Graphics g) {
+    public void drawMap(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.setColor(Color.white);
         for (int x = 0; x < mapWidth; x++) {
             for (int y = 0; y < mapHeight; y++) {
                 g.setColor(Color.white);
                 Tile t = map[x][y];
+                t.render(container, game, g);
                 g.drawRect(t.getBounds().getMinX(), t.getBounds().getMinY(), t.getBounds().getWidth(), t.getBounds().getHeight());
                 g.setColor(Color.yellow);
                 for (SmallTile st : t.getInnerTiles()) {
-                    g.drawRect(st.getBounds().getMinX(), st.getBounds().getMinY(), st.getBounds().getWidth(), st.getBounds().getHeight());
+                    //g.drawRect(st.getBounds().getMinX(), st.getBounds().getMinY(), st.getBounds().getWidth(), st.getBounds().getHeight());
                 }
             }
         }
+    }
+
+    public static int[] getSurroundingTiles(int x, int y) {
+        int[] surrounding = new int[4];
+        try {
+            surrounding[0] = surroundingTile(x, y - 1);
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException ex) {
+            surrounding[0] = -1;
+        }
+        try {
+            surrounding[1] = surroundingTile(x - 1, y);
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException ex) {
+            surrounding[1] = -1;
+        }
+        try {
+            surrounding[2] = surroundingTile(x + 1, y);
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException ex) {
+            surrounding[2] = -1;
+        }
+        try {
+            surrounding[3] = surroundingTile(x, y + 1);
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException ex) {
+            surrounding[3] = -1;
+        }
+        for (int i : surrounding) {
+            System.out.println(i);
+        }
+        return surrounding;
+    }
+
+    private static int surroundingTile(int x, int y) {
+        switch (map[x][y].getId()) {
+            case 1:
+                return 1;
+            case 2:
+                return 2;
+        }
+        return -1;
     }
 
     @Override
